@@ -30,7 +30,8 @@ int c_main(void)
   // External 10MHz clock for CPUA & CPUB and div by 4
   // 1111 1111 1111 1111 1111 11X1 100X 1100
   // F    F    F    F    F    F    9    C
-  //sc[SC_CLKMUX] = 0xffffff9c;
+  if (coreID==1)
+    sc[SC_CLKMUX] = 0xffffff9c;
 
   // System controller (sc)
   // External 10MHz clock for AHB, Router, SDRAM, CPUA & CPUB and div by 4
@@ -42,19 +43,20 @@ int c_main(void)
   // External 10/4=2.5MHz clock for AHB, Router, SDRAM, CPUA & CPUB and div by 4 = 625kHz
   // 1111 1111 1111 X111 1X11 11X1 111X 1111
   // F    F    F    F    F    F    F    F
-  sc[SC_CLKMUX] = 0xffffffff;
+  //if (coreID==1)
+  //  sc[SC_CLKMUX] = 0xffffffff;
 
 
   // Disable PLL1 and PLL2 (bit-18 = 0)
   // 1111 1111 1111 1X11 1111 1111 1111 1111
-  sc[SC_PLL1] &= 0xfffbffff;
-  sc[SC_PLL2] &= 0xfffbffff;
+  //sc[SC_PLL1] &= 0xfffbffff;
+  //sc[SC_PLL2] &= 0xfffbffff;
 
   // Disable all CPUs (0x5ECXXXXX = security code).
   // CPUs need to be reset for this to work otherwise the CPUs keep on
   // pinging the AHB bus.
-  sc[SC_CPU_DIS]    = 0x5EC3ffff;
-  sc[SC_HARD_RST_P] = 0x5EC3ffff;
+  //sc[SC_CPU_DIS]    = 0x5EC3ffff;
+  //sc[SC_HARD_RST_P] = 0x5EC3ffff;
   
   return 0;
 }
